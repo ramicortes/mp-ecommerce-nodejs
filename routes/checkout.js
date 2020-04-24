@@ -63,7 +63,7 @@ app.post('/checkout/preference', (req, res) => {
 });
 
 app.get('/checkout/payment', (req, res) => {
-    const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?' + process.env.ACCESS_TOKEN_PROD;
+    const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
     https.get(url, res => {
         let data = '';
 
