@@ -1,6 +1,7 @@
 const express = require('express');
 const mercadopago = require('mercadopago');
 const app = express();
+const https = require('https')
 
 app.post('/checkout/preference', (req, res) => {
     console.log('payment');
@@ -62,7 +63,16 @@ app.post('/checkout/preference', (req, res) => {
 });
 
 app.get('/checkout/payment', (req, res) => {
-    res.render('approved', req.query);
+    const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?' + process.env.ACCESS_TOKEN_PROD;
+    https.get(url, res => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+            req.query = JSON.parse(data);
+            res.render('approved', req.query);
+        });
+    });
 });
 
 app.post('/checkout/webhook', (req, res) => {
