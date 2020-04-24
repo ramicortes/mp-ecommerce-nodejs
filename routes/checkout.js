@@ -62,9 +62,8 @@ app.post('/checkout/preference', (req, res) => {
 });
 
 app.get('/checkout/payment', (req, res) => {
-    console.log('hola');
     console.log(req);
-    res.json(req);
+    res.render('approved', req.body);
 });
 
 app.post('/checkout/webhook', (req, res) => {
