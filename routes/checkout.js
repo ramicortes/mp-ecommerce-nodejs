@@ -61,7 +61,7 @@ app.post('/checkout/preference', (req, res) => {
         });
 });
 
-app.get('/checkout/payment', (req, res) => {
+app.post('/checkout/payment', (req, res) => {
     console.log(req);
     res.render('approved', req.body);
 });
