@@ -63,16 +63,25 @@ app.post('/checkout/preference', (req, res) => {
 });
 
 app.get('/checkout/payment', (req, res) => {
-    const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
-    https.get(url, res => {
-        let data = '';
+    // const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
+    // https.get(url, res => {
+    //     let data = '';
 
-        resp.on('data', (chunk) => {
-            data += chunk;
-            req.query = JSON.parse(data);
-            res.render('approved', req.query);
-        });
-    });
+    //     resp.on('data', (chunk) => {
+    //         data += chunk;
+    //         req.query = JSON.parse(data);
+    //         res.render('approved', req.query);
+    //     });
+    // });
+    if (req.query.payment_status === 'approved') {
+
+    } else {
+        if (req.query.payment_statu === 'pending') {
+
+        } else {
+
+        }
+    }
 });
 
 app.post('/checkout/webhook', (req, res) => {

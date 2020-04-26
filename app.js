@@ -23,16 +23,33 @@ app.get('/', function(req, res) {
 app.get('/detail', function(req, res) {
     res.render('detail', req.query);
 });
-app.get('/approved', function(req, res) {
-    res.render('approved');
+app.get('/checkout/payment', (req, res) => {
+    // const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
+    // https.get(url, res => {
+    //     let data = '';
+
+    //     resp.on('data', (chunk) => {
+    //         data += chunk;
+    //         req.query = JSON.parse(data);
+    //         res.render('approved', req.query);
+    //     });
+    // });
+    if (req.query.payment_status === 'approved') {
+        res.render('approved', req.query);
+    } else {
+        if (req.query.payment_statu === 'pending') {
+            res.render('pending');
+        } else {
+            res.render('rejected');
+        }
+    }
 });
-app.get('/rejected', function(req, res) {
-    res.render('rejected');
+
+app.post('/checkout/webhook', (req, res) => {
+    console.log("hay retorno");
+    console.log(req);
+    res.json('Aca se reciben notificaciones');
 });
-app.get('/pending', function(req, res) {
-    res.render('pending');
-});
-app.use(require('./routes/index'));
 
 // configuración de mercadopago
 mercadopago.configure({
