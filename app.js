@@ -26,20 +26,20 @@ app.get('/detail', function(req, res) {
 });
 app.get('/checkout/payment', (req, res) => {
     if (req.query.payment_status === 'approved') {
-        const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
-        https.get(url, res => {
-                let data = '';
+        // const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
+        // https.get(url, res => {
+        //         let data = '';
 
-                resp.on('data', (chunk) => {
-                    data += chunk;
-                });
-                resp.on('end', () => {
-                    res.render('approved', JSON.parse(data));
-                });
-            })
-            .on("error", (err) => {
-                console.log("Error: " + err.message);
-            });
+        //         resp.on('data', (chunk) => {
+        //             data += chunk;
+        //         });
+        //         resp.on('end', () => {
+        //             res.render('approved', JSON.parse(data));
+        //         });
+        //     })
+        //     .on("error", (err) => {
+        //         console.log("Error: " + err.message);
+        //     });
     } else {
         if (req.query.payment_statu === 'pending') {
             res.render('pending');
