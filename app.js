@@ -3,6 +3,7 @@ var express = require('express');
 var exphbs = require('express-handlebars');
 const mercadopago = require('mercadopago');
 const bodyParser = require('body-parser');
+const https = require('https')
 
 var app = express();
 
@@ -24,18 +25,21 @@ app.get('/detail', function(req, res) {
     res.render('detail', req.query);
 });
 app.get('/checkout/payment', (req, res) => {
-    // const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
-    // https.get(url, res => {
-    //     let data = '';
-
-    //     resp.on('data', (chunk) => {
-    //         data += chunk;
-    //         req.query = JSON.parse(data);
-    //         res.render('approved', req.query);
-    //     });
-    // });
     if (req.query.payment_status === 'approved') {
-        res.render('approved', req.query);
+        const url = 'https://api.mercadopago.com/v1/payments/' + req.query.payment_id + '?access_token=' + process.env.ACCESS_TOKEN_PROD;
+        https.get(url, res => {
+                let data = '';
+
+                resp.on('data', (chunk) => {
+                    data += chunk;
+                });
+                resp.on('end', () => {
+                    res.render('approved', JSON.parse(data));
+                });
+            })
+            .on("error", (err) => {
+                console.log("Error: " + err.message);
+            });
     } else {
         if (req.query.payment_statu === 'pending') {
             res.render('pending');
